@@ -26,7 +26,7 @@ public final class UtilityPets implements PetGroup {
     @Override
     public void load(HotbarPets plugin) {
         // @formatter:off
-        new BedPet(plugin.getItemGroup(), new SlimefunItemStack("HOTBAR_PET_BED", Material.RED_BED, "&f床 &f宠物", getName(), "&7喜欢的食物: 原木", "", "&f右键: &7睡觉"), new ItemStack(Material.WHITE_WOOL), new ItemStack[] {
+        new BedPet(plugin.getItemGroup(), new SlimefunItemStack("HOTBAR_PET_BED", Material.RED_BED, "&f床 &f宠物", getName(), "&7喜欢的食物: 白色羊毛", "", "&f右键: &7睡觉"), new ItemStack(Material.WHITE_WOOL), new ItemStack[] {
                 new ItemStack(Material.IRON_INGOT), new ItemStack(Material.RED_BED), new ItemStack(Material.IRON_INGOT),
                 new ItemStack(Material.WHITE_WOOL), new ItemStack(Material.DIAMOND), new ItemStack(Material.WHITE_WOOL),
                 new ItemStack(Material.OAK_PLANKS), SlimefunItems.GOLD_14K, new ItemStack(Material.OAK_PLANKS)

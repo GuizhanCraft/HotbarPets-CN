@@ -1,10 +1,5 @@
 package io.github.thebusybiscuit.hotbarpets;
 
-import org.bstats.bukkit.Metrics;
-import org.bukkit.NamespacedKey;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import io.github.thebusybiscuit.hotbarpets.groups.BossMobs;
 import io.github.thebusybiscuit.hotbarpets.groups.FarmAnimals;
 import io.github.thebusybiscuit.hotbarpets.groups.HostileMobs;
@@ -23,8 +18,13 @@ import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
+import org.bstats.bukkit.Metrics;
+import org.bukkit.NamespacedKey;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.java.JavaPlugin;
 
-import net.guizhanss.guizhanlib.updater.GuizhanBuildsUpdater;
+import java.util.logging.Level;
 
 public class HotbarPets extends JavaPlugin implements Listener, SlimefunAddon {
 
@@ -32,16 +32,23 @@ public class HotbarPets extends JavaPlugin implements Listener, SlimefunAddon {
 
     @Override
     public void onEnable() {
+        if (!getServer().getPluginManager().isPluginEnabled("GuizhanLibPlugin")) {
+            getLogger().log(Level.SEVERE, "本插件需要 鬼斩前置库插件(GuizhanLibPlugin) 才能运行!");
+            getLogger().log(Level.SEVERE, "从此处下载: https://50L.cc/gzlib");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
         Config cfg = new Config(this);
 
         // Setting up bStats
         new Metrics(this, 4859);
 
         if (cfg.getBoolean("options.auto-update") && getDescription().getVersion().startsWith("Build")) {
-            new GuizhanBuildsUpdater(this, getFile(), "ybw0014", "HotbarPets-CN", "master", false, "zh-CN").start();
+            GuizhanUpdater.start(this, getFile(), "SlimefunGuguProject", "HotbarPets", "master");
         }
 
-        itemGroup = new ItemGroup(new NamespacedKey(this, "pets"), new CustomItemStack(PetTexture.CATEGORY.getAsItem(), "&d背包宠物", "", "&a> 点击打开"));
+        itemGroup = new ItemGroup(new NamespacedKey(this, "pets"), new CustomItemStack(PetTexture.CATEGORY.getAsItem(), "&d背包宠物"));
 
         // Add all the Pets via their Group class
         new FarmAnimals(this);
